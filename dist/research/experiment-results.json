@@ -1,5 +1,7 @@
 {
   "source_project": "reasoning-unit-rag",
+  "dataset": "HotpotQA distractor validation split",
+  "updated_at": "2026-09-12",
   "experiments": [
     {
       "id": "004",
@@ -9,7 +11,7 @@
       "baseline_recall": 0.793,
       "reasoning_unit_recall": 0.793,
       "delta": 0.0,
-      "finding": "Rule-based decomposition generated only 1.09 units per question on average and did not improve retrieval."
+      "finding": "The rule-based reasoning unit generator produced almost no meaningful decomposition for most questions. As a result, retrieval behavior was nearly identical to the baseline passage retriever. This experiment suggests that the effectiveness of reasoning-unit retrieval depends primarily on the quality of the reasoning-unit generator rather than the retrieval mechanism itself."
     },
     {
       "id": "006",
@@ -19,8 +21,8 @@
       "baseline_recall": 0.542,
       "reasoning_unit_recall": 0.917,
       "delta": 0.375,
-      "finding": "Manually constructed reasoning units improved supporting-sentence recall on selected failure cases, but this is not automated-system performance.",
-      "limitations": "Small, manually selected sample; reasoning units were written with knowledge of the intended reasoning path."
+      "finding": "Oracle reasoning units substantially improved exact supporting-sentence recall while increasing retrieved context only slightly. This suggests that sentence retrieval itself is not necessarily the primary limitation. The more important bottleneck may be the query representation used to retrieve evidence. The original question often compresses multiple unresolved information needs into one embedding, while reasoning-unit queries represent those needs separately.",
+      "limitations": "This was a small proof-of-concept experiment using five manually selected failure cases. The reasoning units were manually written with knowledge of the intended reasoning path, so the result should not be interpreted as performance from an automated system."
     }
   ]
 }
