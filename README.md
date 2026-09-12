@@ -6,15 +6,15 @@ Trace is an API change monitor for product teams. It turns a technical API updat
 
 [Open Trace](https://trace-evidence-research.richa-tigiripally.chatgpt.site/)
 
-## The product experience
+## Live public API checks
 
-Someone can paste an API documentation link and view a sample change report. The report explains the change in plain language, identifies affected product areas, and recommends the next action.
+Trace can fetch current data from three public sources: GitHub, Open-Meteo, and the USGS earthquake feed. It saves a small local snapshot for each source and explains whether the visible response fields changed on a later check.
 
-The monitoring, comparison, impact analysis, and fix-plan generation belong behind the product interface. The interface is deliberately focused on the decision a product or operations teammate needs to make.
+The live checks are deliberately credential-free and the snapshots stay in the visitor's browser. A production backend will add shared history, scheduled checks, impact analysis, and notifications.
 
 ## Current prototype
 
-This version demonstrates the customer-facing change-report flow with a safe, public example. Connecting a real API source and automated code fixes is the next backend milestone.
+This version demonstrates a working live-data flow with public sources. Connecting customer APIs, shared monitoring history, and automated code fixes is the next backend milestone.
 
 ## Project structure
 
