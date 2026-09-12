@@ -4,4 +4,13 @@
 
 The first integration deliberately exposes both the positive oracle result and the unsuccessful rule-based baseline. That keeps the product honest: Trace may show evidence and interpret a result, but it must distinguish a promising upper bound from an automated capability.
 
-Next implementation step: add an exporter in `reasoning-unit-rag` that writes this same schema after each evaluation run, then let Trace ingest the exported JSON through a server-side API.
+Refresh it from the local RAG experiment reports with:
+
+```bash
+python tools/export_rag_results.py \
+  --experiments-dir /path/to/reasoning-unit-rag/experiments \
+  --output research/experiment-results.json
+cp research/experiment-results.json dist/research/experiment-results.json
+```
+
+The exporter intentionally includes both the positive oracle result and the unsuccessful rule-based baseline. Trace can therefore distinguish a promising upper bound from automated-system performance.
