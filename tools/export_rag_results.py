@@ -4,7 +4,8 @@
 Usage:
   python tools/export_rag_results.py \
     --experiments-dir /path/to/reasoning-unit-rag/experiments \
-    --output research/experiment-results.json
+    --output research/experiment-results.json \
+    --published-output dist/research/experiment-results.json
 """
 
 from __future__ import annotations
@@ -90,12 +91,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--experiments-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--published-output",
+        type=Path,
+        help="Optional public Trace data file to update with the same payload.",
+    )
     args = parser.parse_args()
 
     payload = export(args.experiments_dir)
+    serialized = json.dumps(payload, indent=2) + "\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    args.output.write_text(serialized, encoding="utf-8")
+    if args.published_output:
+        args.published_output.parent.mkdir(parents=True, exist_ok=True)
+        args.published_output.write_text(serialized, encoding="utf-8")
     print(f"Wrote {args.output}")
+    if args.published_output:
+        print(f"Wrote {args.published_output}")
 
 
 if __name__ == "__main__":

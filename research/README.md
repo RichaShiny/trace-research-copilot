@@ -9,8 +9,8 @@ Refresh it from the local RAG experiment reports with:
 ```bash
 python tools/export_rag_results.py \
   --experiments-dir /path/to/reasoning-unit-rag/experiments \
-  --output research/experiment-results.json
-cp research/experiment-results.json dist/research/experiment-results.json
+  --output research/experiment-results.json \
+  --published-output dist/research/experiment-results.json
 ```
 
 The exporter intentionally includes both the positive oracle result and the unsuccessful rule-based baseline. Trace can therefore distinguish a promising upper bound from automated-system performance.
