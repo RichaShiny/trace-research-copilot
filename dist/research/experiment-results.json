@@ -1,0 +1,26 @@
+{
+  "source_project": "reasoning-unit-rag",
+  "experiments": [
+    {
+      "id": "004",
+      "title": "Rule-based reasoning-unit retrieval",
+      "sample_size": 100,
+      "retrieval_unit": "passage",
+      "baseline_recall": 0.793,
+      "reasoning_unit_recall": 0.793,
+      "delta": 0.0,
+      "finding": "Rule-based decomposition generated only 1.09 units per question on average and did not improve retrieval."
+    },
+    {
+      "id": "006",
+      "title": "Oracle reasoning units for sentence retrieval",
+      "sample_size": 5,
+      "retrieval_unit": "sentence",
+      "baseline_recall": 0.542,
+      "reasoning_unit_recall": 0.917,
+      "delta": 0.375,
+      "finding": "Manually constructed reasoning units improved supporting-sentence recall on selected failure cases, but this is not automated-system performance.",
+      "limitations": "Small, manually selected sample; reasoning units were written with knowledge of the intended reasoning path."
+    }
+  ]
+}
