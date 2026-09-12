@@ -1,0 +1,46 @@
+name: monitor public APIs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: check approved public APIs
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'dist/data/monitor-history.json';
+          const sources = {
+            github: { name: 'GitHub REST API', url: 'https://api.github.com/' },
+            weather: { name: 'Open-Meteo weather API', url: 'https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,wind_speed_10m' },
+            earthquakes: { name: 'USGS earthquake feed', url: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson' },
+          };
+          const history = fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, 'utf8')) : [];
+          for (const [id, source] of Object.entries(sources)) {
+            const response = await fetch(source.url, { headers: { accept: 'application/json', 'user-agent': 'Trace API monitor' } });
+            if (!response.ok) throw new Error(`${source.name} returned ${response.status}`);
+            const fields = Object.keys(await response.json()).sort();
+            const previous = history.find((item) => item.sourceId === id);
+            history.unshift({ sourceId: id, sourceName: source.name, endpoint: new URL(source.url).hostname, checkedAt: new Date().toISOString(), fields, added: previous ? fields.filter((field) => !previous.fields.includes(field)) : [], removed: previous ? previous.fields.filter((field) => !fields.includes(field)) : [] });
+          }
+          fs.mkdirSync('dist/data', { recursive: true });
+          fs.writeFileSync(path, JSON.stringify(history.slice(0, 60), null, 2) + '\n');
+          NODE
+      - name: save shared monitoring history
+        run: |
+          git config user.name "trace monitor"
+          git config user.email "actions@github.com"
+          git add dist/data/monitor-history.json
+          git diff --cached --quiet || git commit -m "update API monitoring history"
+          git push
