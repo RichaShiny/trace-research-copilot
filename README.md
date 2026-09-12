@@ -1,32 +1,21 @@
 # Trace
 
-An evidence-first research workspace for turning complex questions into answers people can inspect and verify.
+Trace is an API change monitor for product teams. It turns a technical API update into a simple answer: what changed, who it affects, and what to do next.
 
-## Live site
+## Live demo
 
 [Open Trace](https://trace-evidence-research.richa-tigiripally.chatgpt.site/)
 
-## What Trace does
+## The product experience
 
-- breaks a research question into specific evidence needs;
-- keeps conclusions connected to their supporting evidence; and
-- presents reviewed RAG experiment results with their limitations, rather than treating a promising oracle result as an automated-system result.
+Someone can paste an API documentation link and view a sample change report. The report explains the change in plain language, identifies affected product areas, and recommends the next action.
 
-## RAG research results
+The monitoring, comparison, impact analysis, and fix-plan generation belong behind the product interface. The interface is deliberately focused on the decision a product or operations teammate needs to make.
 
-Trace reads its reviewed experiment data from [`research/experiment-results.json`](research/experiment-results.json). The data is exported from the local `reasoning-unit-rag` experiment reports with:
+## Current prototype
 
-```bash
-python tools/export_rag_results.py \
-  --experiments-dir /path/to/reasoning-unit-rag/experiments \
-  --output research/experiment-results.json \
-  --published-output dist/research/experiment-results.json
-```
-
-This produces the reviewed source data and the file served by the site from the same payload.
+This version demonstrates the customer-facing change-report flow with a safe, public example. Connecting a real API source and automated code fixes is the next backend milestone.
 
 ## Project structure
 
-- `dist/` — the static Trace site
-- `research/` — reviewed experiment-result data and notes
-- `tools/` — data-export utilities
+- `dist/` — static product interface
