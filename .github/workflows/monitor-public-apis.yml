@@ -41,6 +41,6 @@ jobs:
         run: |
           git config user.name "trace monitor"
           git config user.email "actions@github.com"
-          git add dist/data/monitor-history.json
+          git add -f dist/data/monitor-history.json
           git diff --cached --quiet || git commit -m "update API monitoring history"
           git push
