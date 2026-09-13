@@ -19,7 +19,7 @@ jobs:
       - name: check approved public APIs
         run: |
           node <<'NODE'
-          const fs = require('fs');
+          import fs from 'node:fs';
           const path = 'dist/data/monitor-history.json';
           const sources = {
             github: { name: 'GitHub REST API', url: 'https://api.github.com/' },
